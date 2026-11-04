@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<title>Descomputando#Threads</title>
+		<link href="../descomputando.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<h1>Descomputando#Threads</h1>
+		<div class="ui controle">
+			<button onclick="iniciarExecucao()">▶️</button>
+			<input type="range" title="Velocidade de execução" min="1" max="10" value="3" step="1">
+			<button>🔄️</button>
+			<div class="status"></div>
+		</div>
+		<div class="ui barra topo">
+			<label for="formaProcessamento">Forma:</label>
+			<select id="formaProcessamento" title="Forma de processamento da fila de threads" onchange="prepararExecucao(this.selectedOptions[0].value)">
+				<option value="fifo">Primeira thread a chegar (FIFO ou  FCFS)</option>
+				<option value="rr">Round Robin</option>
+				<option value="sjf">Menor thread primeiro (SJF)</option>
+				<option value="srtf">Menor thread preemptiva primeiro (SRTF)</option>
+				<option value="ps">Maior prioridade primeiro (Priority Scheduling)</option>
+				<option value="prr">Prioridade + Round Robin</option>
+				<option value="mlq">Filas multi-níveis (MLQ)</option>
+				<option value="mlfq">Filas multi-níveis de feedback (MLFQ)</option>
+				<option value="lifo">Última thread a chegar (LIFO)</option>
+			</select>
+			<label for="quantum">Quantum:</label>
+			<input id="quantum" type="number" min="1" max="1000" value="50">
+		</div>
+		<div class="flex barra">
+			<div class="ui coluna">
+				<h2>Lista de threads</h2>
+				<div class="ui">
+					<button>💡</button>
+					<button>➕</button>
+					<button>🔄️</button>
+				</div>
+				<div class="scroll">
+					<ol id="listaThreads" type="1"></ol>
+				</div>
+			</div>
+			<div class="ui area">
+				<h2>Mapa de execução</h2>
+				<div id="mapaExecucao"></div>
+			</div>
+		</div>
+		<script src="threads.js"></script>
+	</body>
+</html>

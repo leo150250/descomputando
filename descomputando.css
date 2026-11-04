@@ -1,0 +1,98 @@
+body {
+	margin: 0px;
+	font-family: monospace;
+	height: 100vh;
+	width: 100%;
+	font-weight: lighter;
+	position: relative;
+}
+h1, h2 {
+	margin: 0em;
+	padding: 0.25em;
+	color: #FFF;
+	background-color: #425696;
+	background-image: linear-gradient(to right, #0000, #0002);
+}
+embed {
+	resize: both;
+}
+ol {
+	margin: 0.5em;
+	padding-inline-start: 2em;
+}
+hr.v {
+	display: inline;
+	margin: 0.5em;
+}
+.ui {
+	border: 1px outset #FFF8;
+	background-color: #1111;
+	box-sizing: border-box;
+	min-height: 2em;
+	min-width: 2em;
+	flex-grow: 2;
+	flex-shrink: 2;
+}
+.controle {
+	position: absolute;
+	top: 0px;
+	right: 1em;
+	display: flex;
+	align-items: center;
+	border-top: none;
+	background-color: white;
+	box-shadow: 0px 5px 10px #0008;
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	padding: 0.25em;
+}
+.controle .status {
+	border: 2px groove #FFF8;
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	border-radius: 0.5em;
+	margin: 0.25em;
+}
+.flex {
+	display: flex;
+	height: stretch;
+	position: absolute;
+}
+.barra {
+	width: 100%;
+}
+.coluna {
+	flex-basis: 20em;
+	flex-shrink: 0;
+	position: relative;
+	height: stretch;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+.area {
+	flex-grow: 100;
+}
+.scroll {
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
+.tag {
+	border: 1px outset #FFF8;
+	border-radius: 0.5em;
+	padding: 0.5em;
+	margin: 0.1em;
+}
+.tag p {
+	flex-grow: 2;
+	flex-shrink: 2;
+	margin: 0.1em;
+}
+.tag progress {
+	width: stretch;
+}
+.inline {
+	display: inline-block;
+}
