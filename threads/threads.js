@@ -168,7 +168,7 @@ function criarNovoThread(_trabalho = null, _prioridade = 0) {
 function ordenarThreads() {
 	olListaThreads.innerHTML = "";
 	for (let i = 0; i < threads.length; i++) {
-		threads[i].trabalho = this.trabalhoInicio;
+		threads[i].trabalho = threads[i].trabalhoInicio;
 		threads[i].quantumGerado = 0;
 	}
 	let listaThreads = threads;
