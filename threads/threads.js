@@ -1,5 +1,6 @@
 const olListaThreads = document.getElementById("listaThreads");
 const divMapaExecucao = document.getElementById("mapaExecucao");
+const divIconeStatus = document.getElementById("iconeStatus");
 
 var threads = [];
 var proximoId = 32000;
@@ -67,7 +68,7 @@ class Thread {
 	criarQuantum(_threadAnterior = this) {
 		if (this.quantumGerado < this.trabalhoInicio) {
 			if (_threadAnterior !== this) {
-				new Quantum(null, 25);
+				new Quantum(null, 10);
 			}
 			let novoQuantum = new Quantum(this, clamp(this.trabalhoInicio - this.quantumGerado, 0, quantumValor));
 			this.quantumGerado += novoQuantum.valor;
@@ -75,6 +76,11 @@ class Thread {
 		} else {
 			return false;
 		}
+	}
+	resetar() {
+		this.trabalho = this.trabalhoInicio;
+		this.quantumGerado = 0;
+		this.atualizarElemento();
 	}
 }
 
@@ -167,20 +173,17 @@ function criarNovoThread(_trabalho = null, _prioridade = 0) {
 
 function ordenarThreads() {
 	olListaThreads.innerHTML = "";
-	for (let i = 0; i < threads.length; i++) {
-		threads[i].trabalho = threads[i].trabalhoInicio;
-		threads[i].quantumGerado = 0;
-	}
 	let listaThreads = threads;
 	switch (metodoFila) {
 		case "fifo":
 		case "rr":
-		case "sjf":
 			threads = listaThreads;
-			for (let i = 0; i < threads.length; i++) {
-				olListaThreads.appendChild(threads[i].el);
-			}
 			break;
+		case "sjf":
+			break;
+	}
+	for (let i = 0; i < threads.length; i++) {
+		olListaThreads.appendChild(threads[i].el);
 	}
 }
 
@@ -188,18 +191,19 @@ function gerarQuantums() {
 	quantums = [];
 	quantumId = 0;
 	divMapaExecucao.innerHTML = "";
+	let threadAnterior = null;
 	switch (metodoFila) {
 		case "fifo":
+			threadAnterior = threads[0];
 			threads.forEach(thread => {
-				while (thread.criarQuantum()) {
-					//Vai fazendo enquanto cria
+				while (thread.criarQuantum(threadAnterior)) {
+					threadAnterior = thread;
 				}
-				new Quantum(null, 25);
 			})
 			break;
 		case "rr":
 			let fazendoQuantum = true;
-			let threadAnterior = 0;
+			threadAnterior = 0;
 			while (fazendoQuantum) {
 				fazendoQuantum = false;
 				for (let i = 0; i < threads.length; i++) {
@@ -218,6 +222,9 @@ function prepararExecucao(_modo = null) {
 	if (_modo !== null) {
 		metodoFila = _modo;
 	}
+	for (let i = 0; i < threads.length; i++) {
+		threads[i].resetar();
+	}
 	ordenarThreads();
 	gerarQuantums();
 }
@@ -226,11 +233,16 @@ function executar() {
 	if (quantumId < quantums.length) {
 		quantums[quantumId].executar();
 	} else {
-		clearInterval(timerExecucao);
+		pararExecucao();
 	}
 }
 function iniciarExecucao() {
 	timerExecucao = setInterval(executar,10);
+	divIconeStatus.classList.add("ativo");
+}
+function pararExecucao() {
+	clearInterval(timerExecucao);
+	divIconeStatus.classList.remove("ativo");
 }
 
 criarThreadsAleatorias();

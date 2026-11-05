@@ -47,12 +47,26 @@ hr.v {
 	padding: 0.25em;
 }
 .controle .status {
-	border: 2px groove #FFF8;
+	border: 0.75em groove #FFF8;
 	display: inline-block;
-	width: 1em;
-	height: 1em;
-	border-radius: 0.5em;
+	width: 0.25em;
+	height: 0.25em;
+	border-radius: 1em;
 	margin: 0.25em;
+}
+.controle .status.ativo {
+	border-right-color: #0F0;
+	animation: animStatusAtivo 1s linear infinite;
+}
+@keyframes animStatusAtivo {
+	0% {
+		transform: rotate(0deg);
+		background-color: #0F0;
+	}
+	100% {
+		transform: rotate(360deg);
+		background-color: transparent;
+	}
 }
 .flex {
 	display: flex;
