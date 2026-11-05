@@ -6,7 +6,7 @@
 	<body>
 		<h1>Descomputando#Threads</h1>
 		<div class="ui controle">
-			<button onclick="iniciarExecucao()">▶️</button>
+			<button id="alternarExecucao" onclick="alternarExecucao()">▶️</button>
 			<input type="range" title="Velocidade de execução" min="1" max="10" value="3" step="1">
 			<button>🔄️</button>
 			<div id="iconeStatus" class="status"></div>
@@ -17,7 +17,7 @@
 				<option value="fifo">Primeira thread a chegar (FIFO ou  FCFS)</option>
 				<option value="rr">Round Robin</option>
 				<option value="sjf">Menor thread primeiro (SJF)</option>
-				<option value="srtf">Menor thread preemptiva primeiro (SRTF)</option>
+				<option value="srtf" selected>Menor thread preemptiva primeiro (SRTF)</option>
 				<option value="ps">Maior prioridade primeiro (Priority Scheduling)</option>
 				<option value="prr">Prioridade + Round Robin</option>
 				<option value="mlq">Filas multi-níveis (MLQ)</option>
@@ -25,14 +25,14 @@
 				<option value="lifo">Última thread a chegar (LIFO)</option>
 			</select>
 			<label for="quantum">Quantum:</label>
-			<input id="quantum" type="number" min="1" max="1000" value="50">
+			<input id="quantum" type="number" min="1" max="1000" value="20">
 		</div>
 		<div class="flex barra">
 			<div class="ui coluna">
 				<h2>Lista de threads</h2>
 				<div class="ui">
 					<button>💡</button>
-					<button>➕</button>
+					<button onclick="criarNovoThread()">➕</button>
 					<button>🔄️</button>
 				</div>
 				<div class="scroll">
@@ -41,7 +41,9 @@
 			</div>
 			<div class="ui area">
 				<h2>Mapa de execução</h2>
-				<div id="mapaExecucao"></div>
+				<div class="scroll">
+					<div id="mapaExecucao"></div>
+				</div>
 			</div>
 		</div>
 		<script src="threads.js"></script>

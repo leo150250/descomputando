@@ -55,13 +55,14 @@ hr.v {
 	margin: 0.25em;
 }
 .controle .status.ativo {
+	border-left-color: #0F0;
 	border-right-color: #0F0;
 	animation: animStatusAtivo 1s linear infinite;
 }
 @keyframes animStatusAtivo {
 	0% {
 		transform: rotate(0deg);
-		background-color: #0F0;
+		background-color: #F00;
 	}
 	100% {
 		transform: rotate(360deg);
@@ -87,6 +88,8 @@ hr.v {
 }
 .area {
 	flex-grow: 100;
+	display: flex;
+	flex-direction: column;
 }
 .scroll {
 	height: 100%;
