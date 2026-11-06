@@ -211,8 +211,8 @@ function criarNovoThread(_trabalho = null, _prioridade = 0, _prepararExec = true
 
 		if (metodoFila === "srtf") {
 			console.log("Em SRTF");
-			console.log(threads);
-			console.log(quantums);
+			//console.log(threads);
+			//console.log(quantums);
 			let threadAtual = quantums[quantumId] ? quantums[quantumId].thread : null;
 			if (threadAtual === null) {
 				console.log(`Não há thread em execução. Deve ser quantum de troca de contexto.`);
@@ -226,18 +226,25 @@ function criarNovoThread(_trabalho = null, _prioridade = 0, _prepararExec = true
 			console.log(`Trabalho da thread para analisar: ${threadAtual.trabalho}`);
 			if (novaThread.trabalhoInicio < threadAtual.trabalho) {
 				console.log("Inserir preemptivamente entre quantums");
+				for (let i = novosQuantums.length-1; i >= 0; i--) {
+					quantums.splice(quantumId+1,0,novosQuantums[i]);
+					quantums.pop();
+				}
+				olListaThreads.insertBefore(novaThread.el,threadAtual.el);
+				threads.splice(indiceThread,0,threads.pop());
+				//pararExecucao();
 			} else {
 				console.log("Inserir antes da próxima menor thread ou no fim da fila");
 				let indiceMenorThread = indiceNovaThread;
 				for (let i = indiceThread + 1; i < threads.length; i++) {
-					console.log(`Trabalho de i: ${threads[i].trabalho}`);
+					//console.log(`Trabalho de i: ${threads[i].trabalho}`);
 					if (novaThread.trabalho < threads[i].trabalho) {
-						console.log(`Achei menor trabalho!`);
+						//console.log(`Achei menor trabalho!`);
 						indiceMenorThread = i;
 						break;
 					}
 				}
-				console.log(`Menor thread: ${indiceMenorThread}`);
+				//console.log(`Menor thread: ${indiceMenorThread}`);
 				if (indiceMenorThread != indiceNovaThread) {
 					for (let i = 0; i < novosQuantums.length; i++) {
 						quantums.splice(quantums.indexOf(threads[indiceMenorThread].quantums[0]),0,novosQuantums[i]);
@@ -246,7 +253,7 @@ function criarNovoThread(_trabalho = null, _prioridade = 0, _prepararExec = true
 					olListaThreads.insertBefore(novaThread.el,threads[indiceMenorThread].el);
 					threads.splice(indiceMenorThread,0,threads.pop());
 				} else {
-					console.log("Não precisa mudar.");
+					//console.log("Não precisa mudar.");
 					olListaThreads.appendChild(novaThread.el);
 				}
 			}
@@ -327,13 +334,6 @@ function gerarQuantums(_adicionar = false) {
 	switch (metodoFila) {
 		case "fifo":
 		case "sjf":
-			threadAnterior = threads[0];
-			threads.forEach(thread => {
-				while (thread.criarQuantum(threadAnterior)[0]) {
-					threadAnterior = thread;
-				}
-			});
-			break;
 		case "srtf":
 			threadAnterior = threads[0];
 			threads.forEach(thread => {
@@ -427,5 +427,17 @@ function alternarExecucao() {
 	}
 }
 
-criarThreadsAleatorias();
+function limparThreads() {
+	if (timerExecucao !== null) {
+		pararExecucao();
+	}
+	olListaThreads.innerHTML = "";
+	divMapaExecucao.innerHTML = "";
+	threads = [];
+	quantums = [];
+	quantumId = null;
+}
+
 prepararExecucao();
+criarNovoThread(1000);
+criarNovoThread(1000);

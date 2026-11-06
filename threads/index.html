@@ -17,7 +17,7 @@
 				<option value="fifo">Primeira thread a chegar (FIFO ou  FCFS)</option>
 				<option value="rr">Round Robin</option>
 				<option value="sjf">Menor thread primeiro (SJF)</option>
-				<option value="srtf" selected>Menor thread preemptiva primeiro (SRTF)</option>
+				<option value="srtf" selected>Menor thread primeiro, preemptivo (SRTF)</option>
 				<option value="ps">Maior prioridade primeiro (Priority Scheduling)</option>
 				<option value="prr">Prioridade + Round Robin</option>
 				<option value="mlq">Filas multi-níveis (MLQ)</option>
@@ -31,8 +31,8 @@
 			<div class="ui coluna">
 				<h2>Lista de threads</h2>
 				<div class="ui">
-					<button>💡</button>
-					<button onclick="criarNovoThread()">➕</button>
+					<button onclick="limparThreads()" title="Limpar todas as threads">💡</button>
+					<button onclick="criarNovoThread()" title="Criar nova thread aleatória">➕</button>
 					<button>🔄️</button>
 				</div>
 				<div class="scroll">
